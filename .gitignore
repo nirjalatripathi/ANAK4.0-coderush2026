@@ -1,0 +1,9 @@
+node_modules/
+.env
+client/dist/
+server/uploads/identity-documents/*
+server/uploads/profile-images/*
+server/uploads/unregistered/*
+!server/uploads/**/.gitkeep
+.DS_Store
+*.log

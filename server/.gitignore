@@ -1,0 +1,8 @@
+node_modules/
+.env
+uploads/identity-documents/*
+uploads/profile-images/*
+uploads/unregistered/*
+!uploads/identity-documents/.gitkeep
+!uploads/profile-images/.gitkeep
+!uploads/unregistered/.gitkeep

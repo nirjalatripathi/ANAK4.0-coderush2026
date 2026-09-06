@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-serif: "Source Serif 4", "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-navy-950: #07111f;
+  --color-navy-900: #0d1f38;
+  --color-navy-800: #16345a;
+  --color-navy-700: #1d4a7a;
+  --color-navy-100: #e4ebf4;
+  --color-navy-50: #f6f8fb;
+  --color-gold-600: #9a7b32;
+  --color-gold-500: #c4a35a;
+  --color-teal-700: #0f766e;
+  --color-ink-900: #1a1d24;
+  --color-ink-700: #4b5160;
+  --color-ink-500: #6b7280;
+  --color-line: #e2e7ee;
+}
+
+:root {
+  color: #1a1d24;
+  background: #f6f8fb;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  line-height: 1.65;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { min-height: 100%; }
+body { margin: 0; }
+a { color: inherit; }
+h1, h2, h3, .serif { font-family: "Source Serif 4", "Times New Roman", serif; }
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 8px;
+  background: #0d1f38;
+  color: white;
+  padding: 8px 12px;
+  z-index: 80;
+}
+.skip-link:focus { left: 8px; }
+
+.hero-panel {
+  background: #0d1f38;
+  color: white;
+}
+
+.table-gov { width: 100%; border-collapse: collapse; }
+.table-gov th {
+  text-align: left;
+  background: #0d1f38;
+  color: white;
+  font-weight: 600;
+  padding: 0.9rem 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.table-gov td {
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid #e2e7ee;
+  vertical-align: top;
+}
+
+.input-gov, .select-gov, .textarea-gov {
+  width: 100%;
+  border: 1px solid #c5cedb;
+  background: white;
+  color: #1a1d24;
+  padding: 0.8rem 0.9rem;
+  font: inherit;
+  border-radius: 8px;
+}
+.input-gov:focus, .select-gov:focus, .textarea-gov:focus {
+  outline: 3px solid #99f6e4;
+  border-color: #0f766e;
+}
+
+.label-gov {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #0d1f38;
+  margin-bottom: 0.4rem;
+}
+
+.btn-primary, .btn-gold, .btn-outline, .btn-danger, .btn-safe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 46px;
+  padding: 0.65rem 1.15rem;
+  font-weight: 650;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+
+.btn-primary { background: #0d1f38; color: white; }
+.btn-primary:hover { background: #16345a; }
+.btn-gold { background: #c4a35a; color: #07111f; }
+.btn-outline { background: white; color: #0d1f38; border-color: #c5cedb; }
+.btn-outline:hover { border-color: #0d1f38; }
+.btn-danger { background: #b91c1c; color: white; }
+.btn-safe { background: #0f766e; color: white; }
+
+.card-gov {
+  background: white;
+  border: 1px solid #e2e7ee;
+  border-radius: 10px;
+}
+
+.occupancy-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+.occupancy-bar > span { display: block; height: 100%; }
+
+.response-map {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e7ee;
+}
+
+.page-wrap {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 6rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+}
