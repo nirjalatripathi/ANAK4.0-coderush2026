@@ -14,12 +14,12 @@ function workspaceLink(user) {
 const links = [
   { to: '/', label: 'Home', end: true },
   { to: '/about', label: 'About Us' },
+  { to: '/disasters', label: 'Disasters' },
   { to: '/victims', label: 'People' },
   { to: '/donate', label: 'Donate' },
   { to: '/apply-support', label: 'Ask for Support' },
   { to: '/how-it-works', label: 'How It Works' },
   { to: '/impact', label: 'Impact' },
-  { to: '/contact', label: 'Contact' },
 ];
 
 const linkClass = ({ isActive }) =>
@@ -35,11 +35,11 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 bg-white">
       <div className="border-b border-line bg-cream">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center gap-3 no-underline" aria-label="RAHAT Home">
-            <RahatLogo size={44} />
+          <Link to="/" className="flex items-center gap-4 no-underline" aria-label="RAHAT Home">
+            <RahatLogo size={80} />
             <div>
-              <span className="block text-xl font-semibold leading-none text-navy-900 sm:text-2xl">RAHAT</span>
-              <span className="mt-1 block text-[10px] uppercase tracking-[0.16em] text-ink-500 sm:text-xs">Disaster Relief</span>
+              <span className="block text-2xl font-semibold leading-none text-navy-900 sm:text-3xl">RAHAT</span>
+              <span className="mt-1.5 block text-xs uppercase tracking-[0.16em] text-ink-500 sm:text-sm">Disaster Relief</span>
             </div>
           </Link>
 
@@ -48,7 +48,6 @@ export default function Navbar() {
               <>
                 <Link to="/donate" className="btn-gold h-10 min-h-10 flex-1 px-3 text-sm sm:flex-none sm:px-5">Donate Now</Link>
                 <Link to="/login" className="btn-outline h-10 min-h-10 flex-1 px-3 text-sm sm:flex-none sm:px-5">Sign In</Link>
-                <Link to="/register" className="btn-primary h-10 min-h-10 flex-1 px-3 text-sm sm:flex-none sm:px-5">Create Account</Link>
               </>
             ) : (
               <>

@@ -56,8 +56,27 @@ export default function AdminVictims() {
                 <h2 className="mt-1 text-xl font-semibold text-navy-900">{row.fullName}</h2>
                 <p className="text-sm text-ink-500">Public name: {row.displayName} · {row.municipality}, {row.district}</p>
                 <p className="mt-3 max-w-3xl text-ink-700">{row.story}</p>
+                <div className="mt-4 rounded-lg border border-line bg-navy-50 p-3">
+                  <p className="text-sm font-semibold text-navy-900">Verification contacts</p>
+                  <p className="mt-1 text-sm text-ink-700">{row.phone || 'No phone'} · {row.email || 'No email'}</p>
+                  {row.additionalPhone || row.additionalEmail ? (
+                    <p className="mt-1 text-sm text-ink-700">Additional: {row.additionalPhone || '—'} · {row.additionalEmail || '—'}</p>
+                  ) : null}
+                  {row.evidenceUrl ? (
+                    <>
+                      <p className="mt-3 text-sm text-ink-500">{row.evidenceOriginalName || 'Attached file'}</p>
+                      {String(row.evidenceMimeType || '').startsWith('image/') ? (
+                        <img src={row.evidenceUrl} alt="Application evidence" className="mt-3 max-h-64 rounded-md border border-line object-contain" />
+                      ) : null}
+                      <a className="mt-2 inline-block text-sm font-semibold text-teal-700 underline" href={row.evidenceUrl} target="_blank" rel="noreferrer">
+                        Open attached file
+                      </a>
+                    </>
+                  ) : (
+                    <p className="mt-3 text-sm text-ink-500">No photo, video, or document was attached.</p>
+                  )}
+                </div>
                 <p className="mt-3 font-semibold">{npr(row.amountRaisedNPR)} / {npr(row.amountNeededNPR)} · {row.category}</p>
-                {row.phone || row.email ? <p className="mt-1 text-sm text-ink-500">{row.phone} {row.email}</p> : null}
               </div>
               <StatusBadge status={row.status} />
             </div>

@@ -40,7 +40,7 @@ router.put('/verification/:id', verificationController.decide);
 router.get('/households', citizenAdminController.listHouseholds);
 router.post('/households/members', householdController.addMember);
 
-router.get('/disasters', disasterController.list);
+router.get('/disasters', disasterController.adminList);
 router.post('/disasters', disasterController.create);
 router.put('/disasters/:id', disasterController.update);
 

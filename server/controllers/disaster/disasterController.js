@@ -1,10 +1,19 @@
 const Disaster = require('../../models/Disaster');
-const { listPublicDisasters, getActiveDisasters, createDisaster, updateDisaster } = require('../../services/disasterService');
+const { listPublicDisasters, listAllDisasters, getActiveDisasters, createDisaster, updateDisaster } = require('../../services/disasterService');
 const { AppError } = require('../../middleware/errorMiddleware');
 
 async function list(req, res, next) {
   try {
     const disasters = await listPublicDisasters();
+    res.json({ success: true, disasters });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function adminList(req, res, next) {
+  try {
+    const disasters = await listAllDisasters();
     res.json({ success: true, disasters });
   } catch (error) {
     next(error);
@@ -48,4 +57,4 @@ async function update(req, res, next) {
   }
 }
 
-module.exports = { list, active, details, create, update };
+module.exports = { list, adminList, active, details, create, update };

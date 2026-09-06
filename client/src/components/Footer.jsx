@@ -9,7 +9,6 @@ const quickLinks = [
   { to: '/apply-support', label: 'Ask for Support' },
   { to: '/how-it-works', label: 'How It Works' },
   { to: '/impact', label: 'Impact' },
-  { to: '/contact', label: 'Contact' },
 ];
 
 const resources = [
@@ -17,11 +16,10 @@ const resources = [
   { to: '/camps', label: 'Relief Camps' },
   { to: '/donations', label: 'Donations' },
   { to: '/transparency', label: 'Relief Transparency' },
-  { to: '/disasters', label: 'Disaster Information' },
+  { to: '/disasters', label: 'Disasters' },
 ];
 
 const support = [
-  { to: '/contact', label: 'Contact Us' },
   { to: '/about', label: 'About RAHAT' },
   { to: '/privacy', label: 'Privacy Policy' },
   { to: '/terms', label: 'Terms of Use' },
@@ -53,7 +51,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-4 lg:gap-16">
         <div>
           <Link to="/" className="mb-4 flex items-center gap-2.5 no-underline" aria-label="RAHAT Home">
-            <RahatLogo size={36} light />
+            <RahatLogo size={44} />
             <span className="text-xl font-semibold tracking-wide text-white">RAHAT</span>
           </Link>
           <p className="max-w-xs text-base leading-7 text-white/80">
@@ -63,7 +61,6 @@ export default function Footer() {
             <p className="mb-1.5 text-xs font-semibold uppercase tracking-widest text-gold-400">Emergency Numbers</p>
             <p className="text-base text-white">Police <strong>100</strong></p>
             <p className="text-base text-white">Ambulance <strong>102</strong></p>
-            <p className="text-base text-white">Help Desk <strong>1149</strong></p>
           </div>
         </div>
 
@@ -71,15 +68,6 @@ export default function Footer() {
         <FooterSection title="Resources" links={resources} />
         <div>
           <FooterSection title="Support" links={support} />
-          <div className="mt-8">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/80">Help Desk</p>
-            <a href="mailto:helpdesk@rahat.gov.np" className="block text-base text-white hover:text-gold-400">
-              helpdesk@rahat.gov.np
-            </a>
-            <a href="mailto:relief@rahat.gov.np" className="mt-1 block text-base text-white hover:text-gold-400">
-              relief@rahat.gov.np
-            </a>
-          </div>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import { Link, Outlet } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
+import RahatLogo from '../components/RahatLogo';
 import { useAuth } from '../hooks/useAuth';
 
 export default function AdminLayout() {
@@ -9,7 +10,10 @@ export default function AdminLayout() {
     <div className="admin-desk">
       <header className="admin-topbar">
         <div className="flex items-center gap-4">
-          <Link to="/admin/dashboard" className="serif text-xl text-white no-underline">RAHAT</Link>
+          <Link to="/admin/dashboard" className="flex items-center gap-2.5 text-xl text-white no-underline">
+            <RahatLogo size={32} light />
+            <span className="serif">RAHAT</span>
+          </Link>
           <span className="hidden text-xs uppercase tracking-[0.18em] text-gold-400 sm:inline">Administrator</span>
         </div>
         <div className="flex items-center gap-4 text-sm">

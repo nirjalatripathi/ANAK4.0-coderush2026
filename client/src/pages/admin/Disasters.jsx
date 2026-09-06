@@ -15,7 +15,7 @@ export default function AdminDisasters() {
   });
 
   const load = async () => {
-    const { data } = await disasterService.list();
+    const { data } = await disasterService.adminList();
     setRows(data.disasters || []);
   };
 

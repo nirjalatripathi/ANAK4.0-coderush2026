@@ -35,6 +35,7 @@ import AdminDashboard from './pages/admin/Dashboard';
 import AdminCitizens from './pages/admin/Citizens';
 import CitizenDetails from './pages/admin/CitizenDetails';
 import AdminDisasters from './pages/admin/Disasters';
+import AdminDisasterRecords from './pages/admin/DisasterRecords';
 import AdminCamps from './pages/admin/Camps';
 import AdminInventory from './pages/admin/Inventory';
 import AdminDonations from './pages/admin/Donations';
@@ -148,6 +149,7 @@ export default function App() {
         <Route path="citizens" element={<AdminCitizens />} />
         <Route path="citizens/:id" element={<CitizenDetails />} />
         <Route path="disasters" element={<AdminDisasters />} />
+        <Route path="disaster-records" element={<AdminDisasterRecords />} />
         <Route path="camps" element={<AdminCamps />} />
         <Route path="relief-needs" element={<AdminReliefNeeds />} />
         <Route path="inventory" element={<AdminInventory />} />

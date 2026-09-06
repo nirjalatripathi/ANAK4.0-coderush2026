@@ -1,6 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <circle cx="32" cy="32" r="30" fill="#F3E6C9"/>
-  <path d="M16 38 L32 16 L48 38 V48 H16 Z" fill="#6B1D2A"/>
-  <path d="M32 22 L42 36 H22 Z" fill="#F3E6C9"/>
-  <rect x="28" y="36" width="8" height="12" fill="#F3E6C9"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <circle cx="50" cy="50" r="47" fill="#f4efe4"/>
+  <path d="M50 7.5 A42.5 42.5 0 0 1 92.5 50" stroke="#1d4a7a" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M92.5 50 A42.5 42.5 0 0 1 50 92.5" stroke="#8b6914" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M50 92.5 A42.5 42.5 0 0 1 7.5 50" stroke="#2F7D5A" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M7.5 50 A42.5 42.5 0 0 1 50 7.5" stroke="#c45c3e" stroke-width="4.5" stroke-linecap="round"/>
+  <path fill="#7a542c" d="M33 33 L50 22 L67 33 L50 40 Z"/>
+  <path fill="#5c3d1f" d="M33 33 L50 40 L67 33 V56 Q67 60 50 60 Q33 60 33 56 Z"/>
+  <path fill="#f4efe4" d="M50 42.2c-1.8-2.3-5.4-.6-5.4 2.4 0 3.5 5.4 6.2 5.4 6.2s5.4-2.7 5.4-6.2c0-3-3.6-4.7-5.4-2.4z"/>
+  <path fill="#2F7D5A" d="M14 72c1.2-10 10-16.5 20-14.5 3.6.8 6.4 3 8.2 5.6-7.2 2-11.8 7.6-12.6 14.4H20c-3.4 0-6.2-2.4-6-5.5z"/>
+  <path fill="#2F7D5A" d="M86 72c-1.2-10-10-16.5-20-14.5-3.6.8-6.4 3-8.2 5.6 7.2 2 11.8 7.6 12.6 14.4H80c3.4 0 6.2-2.4 6-5.5z"/>
+  <path fill="#2F7D5A" d="M30 76c6.4 9 33.6 9 40 0v6c-8 8.5-32 8.5-40 0z"/>
 </svg>

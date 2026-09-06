@@ -10,7 +10,8 @@ const groups = [
   {
     title: 'Relief',
     links: [
-      { to: '/admin/disasters', label: 'Disasters', icon: 'alert' },
+      { to: '/admin/disasters', label: 'Disasters', icon: 'alert', end: true },
+      { to: '/admin/disaster-records', label: 'Recorded disasters', icon: 'log' },
       { to: '/admin/camps', label: 'Camps', icon: 'camp' },
       { to: '/admin/inventory', label: 'Inventory', icon: 'box' },
       { to: '/admin/relief-needs', label: 'Relief needs', icon: 'need' },

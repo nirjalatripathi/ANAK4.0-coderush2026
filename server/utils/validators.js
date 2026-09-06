@@ -9,8 +9,9 @@ function isPhone(value) {
 }
 
 function required(fields, body) {
+  const source = body || {};
   const missing = fields.filter((field) => {
-    const value = body[field];
+    const value = source[field];
     return value === undefined || value === null || String(value).trim() === '';
   });
   return missing;

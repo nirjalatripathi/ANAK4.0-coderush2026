@@ -19,10 +19,10 @@ export default function Victims() {
   }, []);
 
   return (
-    <div className="page-wrap bg-cream">
-      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">Verified requests</p>
+    <div className="page-wrap bg-cream people-page">
+      <p className="eyebrow text-teal-700 mb-3">Verified requests</p>
       <h1 className="serif mt-3 text-4xl text-navy-900">Choose someone to support</h1>
-      <p className="mt-4 max-w-2xl text-ink-700">These people were reviewed by a RAHAT administrator. Phone numbers and private documents are never shown here.</p>
+      <p className="mt-4 max-w-2xl text-ink-700">Reviewed by a RAHAT administrator. Personal details stay confidential.</p>
       <div className="mt-10">
         {loading ? <Loading /> : null}
         {error ? <p className="text-red-800">{error}</p> : null}

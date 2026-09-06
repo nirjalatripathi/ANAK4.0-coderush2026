@@ -31,9 +31,11 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-20">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-gold-400">Verified people. Direct support.</p>
-            <h1 className="serif mt-4 text-3xl leading-[1.15] text-white sm:text-5xl">Help someone who has already been checked by RAHAT.</h1>
+            <h1 className="serif mt-4 text-3xl leading-[1.15] text-white sm:text-5xl">
+              <q>Because behind every emergency is a life waiting for help</q>
+            </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-white/75 sm:text-lg">
-              Requests appear here only after an administrator approves them. You choose a person, give the amount still needed, and pay with Khalti.
+              Connecting people willing to help with communities affected by disasters, turning every contribution into meaningful support and a step toward recovery
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="#people" className="btn-gold btn-hero w-full sm:w-auto">Browse people</a>
@@ -53,7 +55,6 @@ export default function Home() {
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <h2 id="people-heading" className="section-title text-teal-700">People who need support</h2>
-              <p className="mt-3 max-w-2xl text-lg font-semibold text-navy-900 sm:text-2xl">Listed like a shop — one card, one verified request.</p>
             </div>
             <Link className="btn-outline" to="/victims">View all</Link>
           </div>

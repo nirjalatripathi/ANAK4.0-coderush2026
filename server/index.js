@@ -35,6 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/uploads/profile-images', express.static(path.join(__dirname, 'uploads', 'profile-images')));
 app.use('/uploads/unregistered', express.static(path.join(__dirname, 'uploads', 'unregistered')));
+app.use('/uploads/victim-evidence', express.static(path.join(__dirname, 'uploads', 'victim-evidence')));
 
 app.get('/api/health', async (req, res) => {
   const { pingSupabase } = require('./config/supabase');

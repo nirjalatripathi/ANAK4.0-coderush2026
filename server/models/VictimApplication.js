@@ -29,6 +29,11 @@ const victimApplicationSchema = new mongoose.Schema(
     amountNeededNPR: { type: Number, required: true, min: 100 },
     amountRaisedNPR: { type: Number, default: 0, min: 0 },
     photoUrl: { type: String, default: '/rahat-motive.jpg' },
+    evidenceUrl: { type: String, default: '' },
+    evidenceOriginalName: { type: String, default: '' },
+    evidenceMimeType: { type: String, default: '' },
+    additionalPhone: { type: String, default: '', select: false },
+    additionalEmail: { type: String, default: '', lowercase: true, select: false },
     status: {
       type: String,
       enum: Object.values(VICTIM_STATUS),

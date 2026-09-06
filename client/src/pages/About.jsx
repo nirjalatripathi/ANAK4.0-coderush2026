@@ -5,16 +5,30 @@ function IconCheck() {
 }
 
 const capabilities = [
-  'Identifies and records local disasters with type, level, and location',
-  'Represents disaster severity through defined levels (1–4)',
-  'Helps communities identify and access relief camps',
-  'Tracks camp population, capacity, and resource status',
-  'Calculates actual inventory shortages from camp data',
-  'Publishes verified, calculated relief needs for public view',
-  'Connects donors with real, specific requirements',
-  'Tracks donations from pledge through delivery',
-  'Updates inventory after verified receipt confirmation',
-  'Provides local-level disaster coordination transparency',
+  {
+    title: 'Need is calculated, not guessed',
+    body: 'Shortages come from real camp stock — required minus current — never a vanity number.',
+  },
+  {
+    title: 'Help a verified person, not a vague fund',
+    body: 'Donors choose someone staff have already reviewed, then pay through official Khalti.',
+  },
+  {
+    title: 'Paid is not the same as received',
+    body: 'A completed payment does not count as relief until a camp official confirms what arrived.',
+  },
+  {
+    title: 'Relief follows the quiet camps too',
+    body: 'Supplies go to actual gaps, not only the most visible or popular location.',
+  },
+  {
+    title: 'One chain from disaster to delivery',
+    body: 'Declaration, camps, needs, donations, and verified receipt stay connected in one local desk.',
+  },
+  {
+    title: 'A person is listed only after staff review',
+    body: 'Support requests stay private until an administrator approves them for the public page.',
+  },
 ];
 
 const problems = [
@@ -26,20 +40,16 @@ const problems = [
 ];
 
 const workflowSteps = [
-  { n: '01', title: 'Local Disaster',         desc: 'A disaster is recorded with type, location, and severity.' },
-  { n: '02', title: 'Disaster Level',          desc: 'Level 1–4 is assigned based on scope and impact.' },
-  { n: '03', title: 'Relief Camp',             desc: 'Relief camps receive displaced individuals and families.' },
-  { n: '04', title: 'Camp Needs',              desc: 'Inventory is tracked and shortages are calculated.' },
-  { n: '05', title: 'Targeted Donation',       desc: 'Donors respond to verified needs, not general appeals.' },
-  { n: '06', title: 'Delivery',                desc: 'Supplies are dispatched and tracked to relief camps.' },
-  { n: '07', title: 'Verified Receipt',        desc: 'Officials confirm what was received and log discrepancies.' },
-  { n: '08', title: 'Inventory Update',        desc: 'Camp inventory is updated with verified received quantities.' },
-  { n: '09', title: 'Shortage Reduction',      desc: 'The shortage is reduced. The cycle repeats as needed.' },
+  { n: '01', title: 'Camp Needs',              desc: 'Inventory is tracked and shortages are calculated.' },
+  { n: '02', title: 'Targeted Donation',       desc: 'Donors respond to verified needs, not general appeals.' },
+  { n: '03', title: 'Verified Receipt',        desc: 'Officials confirm what was received and log discrepancies.' },
+  { n: '04', title: 'Inventory Update',        desc: 'Camp inventory is updated with verified received quantities.' },
+  { n: '05', title: 'Shortage Reduction',      desc: 'The shortage is reduced. The cycle repeats as needed.' },
 ];
 
 export default function About() {
   return (
-    <div>
+    <div className="about-page">
       {/* ── Page header ───────────────────────────── */}
       <section className="hero-panel py-20">
         <div className="section-inner px-6 relative z-10">
@@ -102,9 +112,12 @@ export default function About() {
           />
           <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {capabilities.map((item) => (
-              <li key={item} className="card-gov p-4 flex items-start gap-3">
+              <li key={item.title} className="card-gov p-5 flex items-start gap-3">
                 <IconCheck />
-                <span className="text-ink-700 text-sm leading-6">{item}</span>
+                <div>
+                  <p className="font-semibold text-navy-900 leading-snug">{item.title}</p>
+                  <p className="mt-1 text-sm text-ink-700 leading-6">{item.body}</p>
+                </div>
               </li>
             ))}
           </ul>

@@ -3,6 +3,8 @@ node_modules/
 uploads/identity-documents/*
 uploads/profile-images/*
 uploads/unregistered/*
+uploads/victim-evidence/*
 !uploads/identity-documents/.gitkeep
 !uploads/profile-images/.gitkeep
 !uploads/unregistered/.gitkeep
+!uploads/victim-evidence/.gitkeep

@@ -72,7 +72,7 @@ async function contact(req, res, next) {
       }
     }
 
-    res.status(201).json({ success: true, message: 'Your message has been received by the RAHAT help desk.', id: message._id });
+    res.status(201).json({ success: true, message: 'Your message has been received by RAHAT.', id: message._id });
   } catch (error) {
     next(error);
   }

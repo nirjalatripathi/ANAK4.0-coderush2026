@@ -40,9 +40,10 @@ function displayNameFrom(fullName, requested) {
 
 async function apply(req, res, next) {
   try {
-    const missing = required(['fullName', 'district', 'municipality', 'story', 'amountNeededNPR'], req.body);
+    const body = req.body || {};
+    const missing = required(['fullName', 'phone', 'email', 'district', 'municipality', 'story', 'amountNeededNPR'], body);
     if (missing.length) throw new AppError(`Missing required fields: ${missing.join(', ')}`, 400);
-    const amountNeededNPR = Number(req.body.amountNeededNPR);
+    const amountNeededNPR = Number(body.amountNeededNPR);
     if (!amountNeededNPR || amountNeededNPR < 100) throw new AppError('Requested amount must be at least NPR 100', 400);
 
     let application;
@@ -51,18 +52,23 @@ async function apply(req, res, next) {
         application = await VictimApplication.create({
           applicationId: await generateVictimId(),
           applicant: req.user?._id,
-          fullName: req.body.fullName.trim(),
-          displayName: displayNameFrom(req.body.fullName, req.body.displayName),
-          phone: req.body.phone || '',
-          email: req.body.email || req.user?.email || '',
-          district: req.body.district.trim(),
-          municipality: req.body.municipality.trim(),
-          ward: req.body.ward || '',
-          householdSize: Number(req.body.householdSize) || 1,
-          category: req.body.category || 'Other',
-          story: req.body.story.trim(),
+          fullName: String(body.fullName).trim(),
+          displayName: displayNameFrom(body.fullName, body.displayName),
+          phone: body.phone || '',
+          email: body.email || req.user?.email || '',
+          district: String(body.district).trim(),
+          municipality: String(body.municipality).trim(),
+          ward: body.ward || '',
+          householdSize: Number(body.householdSize) || 1,
+          category: body.category || 'Other',
+          story: String(body.story).trim(),
           amountNeededNPR,
-          photoUrl: req.body.photoUrl || '/rahat-motive.jpg',
+          photoUrl: body.photoUrl || '/rahat-motive.jpg',
+          evidenceUrl: req.file ? `/uploads/victim-evidence/${req.file.filename}` : '',
+          evidenceOriginalName: req.file ? (req.file.originalname || req.file.filename) : '',
+          evidenceMimeType: req.file ? (req.file.mimetype || '') : '',
+          additionalPhone: body.additionalPhone || '',
+          additionalEmail: body.additionalEmail || '',
           status: VICTIM_STATUS.PENDING,
           isPublic: false,
         });
@@ -72,13 +78,19 @@ async function apply(req, res, next) {
       }
     }
 
+    if (!application) throw new AppError('Unable to save this application.', 500);
+
     if (req.user) {
-      await writeAudit({
-        user: req.user,
-        action: 'Victim application submitted',
-        entityType: 'VictimApplication',
-        entityId: application.applicationId,
-      });
+      try {
+        await writeAudit({
+          user: req.user,
+          action: 'Victim application submitted',
+          entityType: 'VictimApplication',
+          entityId: application.applicationId,
+        });
+      } catch {
+        /* audit must not block the applicant */
+      }
     }
 
     res.status(201).json({
@@ -133,7 +145,7 @@ async function adminList(req, res, next) {
     const filter = {};
     if (req.query.status) filter.status = req.query.status;
     const rows = await VictimApplication.find(filter)
-      .select('+phone +email')
+      .select('+phone +email +additionalPhone +additionalEmail')
       .populate('applicant', 'fullName email')
       .sort({ createdAt: -1 });
     res.json({ success: true, applications: rows });

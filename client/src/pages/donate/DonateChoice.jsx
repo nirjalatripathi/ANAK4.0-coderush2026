@@ -9,29 +9,29 @@ export default function DonateChoice() {
 
   return (
     <div className="page-wrap">
-      <p className="eyebrow text-teal-700">Make your contribution count</p>
+      <p className="eyebrow eyebrow-lg text-teal-700">Make your contribution count</p>
       <h1 className="serif mt-3 text-4xl text-navy-900 md:text-5xl">Donate to a verified person, or send supplies.</h1>
       <p className="mt-4 max-w-2xl text-lg text-ink-700">
-        Money for an approved person goes through Khalti. Supply donations still go to a published camp need.
+        Money goes through official Khalti. Supplies go to a published camp need.
       </p>
-      <div className="mt-10 grid gap-6 md:grid-cols-3">
-        <Link to="/victims" className="card-hover no-underline p-8">
-          <p className="eyebrow text-gold-700">People</p>
-          <h2 className="serif mt-3 text-3xl text-navy-900">Support someone on the homepage</h2>
-          <p className="mt-3 text-ink-700">Pick a verified card and pay the remaining amount with Khalti.</p>
-          <span className="btn-khalti mt-6">Browse people</span>
+      <div className="mt-10 grid items-stretch gap-6 md:grid-cols-3">
+        <Link to="/victims" className="card-hover no-underline p-8 flex flex-col">
+          <p className="eyebrow text-teal-700">People</p>
+          <h2 className="serif mt-3 text-3xl text-navy-900">Support a verified person</h2>
+          <p className="mt-3 text-ink-700">Choose someone reviewed by RAHAT and give any amount through official Khalti.</p>
+          <span className="btn-primary mt-auto pt-6">Browse people</span>
         </Link>
-        <Link to="/donate/money" className="card-hover no-underline p-8">
-          <p className="eyebrow text-gold-700">Khalti</p>
-          <h2 className="serif mt-3 text-3xl text-navy-900">Pay a general donation</h2>
-          <p className="mt-3 text-ink-700">Send money through the official Khalti checkout. RAHAT records it after Khalti confirms.</p>
-          <span className="btn-khalti mt-6">Pay with Khalti</span>
+        <Link to="/donate/money" className="card-hover no-underline p-8 flex flex-col">
+          <p className="eyebrow text-teal-700">Khalti</p>
+          <h2 className="serif mt-3 text-3xl text-navy-900">Give a general donation</h2>
+          <p className="mt-3 text-ink-700">Pay on official Khalti. RAHAT records it only after the payment is confirmed.</p>
+          <span className="btn-primary mt-auto pt-6">Pay with Khalti</span>
         </Link>
-        <Link to={supplyTo} state={!user ? { from: '/donor/donate/supplies' } : undefined} className="card-hover no-underline p-8">
+        <Link to={supplyTo} state={!user ? { from: '/donor/donate/supplies' } : undefined} className="card-hover no-underline p-8 flex flex-col">
           <p className="eyebrow text-teal-700">Physical relief</p>
-          <h2 className="serif mt-3 text-3xl text-navy-900">I want to donate goods</h2>
-          <p className="mt-3 text-ink-700">See whether an item is still needed before you pledge supplies.</p>
-          <span className="btn-primary mt-6">Donate supplies</span>
+          <h2 className="serif mt-3 text-3xl text-navy-900">Donate supplies</h2>
+          <p className="mt-3 text-ink-700">Pledge goods only if a camp still has a published need for that item.</p>
+          <span className="btn-primary mt-auto pt-6">Donate supplies</span>
         </Link>
       </div>
       <div className="mt-8">

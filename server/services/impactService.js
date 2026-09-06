@@ -31,13 +31,16 @@ async function recommendNeeds({ amountNPR = 0, itemName = '', quantity = 0, incl
   if (itemName) filter.itemName = itemName;
   const needs = await ReliefNeed.find(filter).populate('camp', 'name campId district currentPopulation isDemo');
   const order = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
-  const ranked = needs
+  const rank = (allowDemo) => needs
     .map((need) => {
       const shortage = need.projectedShortage || need.shortage || 0;
       return { need, shortage };
     })
-    .filter((row) => row.shortage > 0 && (includeDemo || !row.need.camp?.isDemo))
+    .filter((row) => row.shortage > 0 && (allowDemo || includeDemo || !row.need.camp?.isDemo))
     .sort((a, b) => (order[a.need.priority] ?? 9) - (order[b.need.priority] ?? 9) || b.shortage - a.shortage);
+
+  let ranked = rank(false);
+  if (!ranked.length) ranked = rank(true);
 
   if (itemName) {
     const stock = await CampInventory.find({ itemName });
@@ -65,12 +68,16 @@ async function recommendNeeds({ amountNPR = 0, itemName = '', quantity = 0, incl
     };
   }
 
+  const urgent = ranked.filter((row) => row.need.priority === 'CRITICAL' || row.need.priority === 'HIGH');
+  const highlyNecessary = (urgent.length ? urgent : ranked).slice(0, 6).map((row) => row.need);
+
   return {
     amountNPR: Number(amountNPR || 0),
-    recommended: ranked[0]?.need || null,
-    alternatives: ranked.slice(1, 3).map((row) => row.need),
-    reason: ranked[0]
-      ? `Recommended because ${ranked[0].need.itemName} at ${ranked[0].need.camp?.name || 'a relief center'} is the highest verified shortage.`
+    recommended: highlyNecessary[0] || ranked[0]?.need || null,
+    alternatives: highlyNecessary.slice(1, 3),
+    highlyNecessary,
+    reason: highlyNecessary[0]
+      ? `${highlyNecessary[0].itemName} is highly necessary — ${highlyNecessary[0].priorityReason || `${highlyNecessary[0].priority} shortage at ${highlyNecessary[0].camp?.name || 'a relief center'}`}.`
       : 'No verified shortages are currently published.',
   };
 }

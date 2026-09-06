@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { getErrorMessage } from '../../utils/helpers';
 
 export default function AdminLogin() {
-  const { adminLogin, login } = useAuth();
+  const { adminLogin } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -36,48 +36,26 @@ export default function AdminLogin() {
         <input className="input-gov" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
         {error ? <p className="mt-3 text-red-800">{error}</p> : null}
         <button className="btn-primary mt-5 w-full" type="submit" disabled={busy}>{busy ? 'Verifying…' : 'Authenticate'}</button>
-        <div className="mt-3 grid grid-cols-2 gap-3">
-          <button
-            className="btn-outline"
-            type="button"
-            disabled={busy}
-            onClick={async () => {
-              setForm({ email: 'admin@rahat.gov.np', password: 'RahatAdmin@2026' });
-              setBusy(true);
-              setError('');
-              try {
-                await adminLogin({ email: 'admin@rahat.gov.np', password: 'RahatAdmin@2026' });
-                navigate('/admin/dashboard', { replace: true });
-              } catch (err) {
-                setError(getErrorMessage(err, 'Access Denied — Administrator privileges required.'));
-              } finally {
-                setBusy(false);
-              }
-            }}
-          >
-            Login as Admin
-          </button>
-          <button
-            className="btn-outline"
-            type="button"
-            disabled={busy}
-            onClick={async () => {
-              setForm({ email: 'vendor.demo@rahat.test', password: 'VendorDemo@2026' });
-              setBusy(true);
-              setError('');
-              try {
-                await login({ email: 'vendor.demo@rahat.test', password: 'VendorDemo@2026' });
-                navigate('/donor/dashboard', { replace: true });
-              } catch (err) {
-                setError(getErrorMessage(err, 'Unable to sign in as vendor.'));
-              } finally {
-                setBusy(false);
-              }
-            }}
-          >
-            Login as Vendor
-          </button>
-        </div>
+        <button
+          className="btn-outline mt-3 w-full"
+          type="button"
+          disabled={busy}
+          onClick={async () => {
+            setForm({ email: 'admin@rahat.gov.np', password: 'RahatAdmin@2026' });
+            setBusy(true);
+            setError('');
+            try {
+              await adminLogin({ email: 'admin@rahat.gov.np', password: 'RahatAdmin@2026' });
+              navigate('/admin/dashboard', { replace: true });
+            } catch (err) {
+              setError(getErrorMessage(err, 'Access Denied — Administrator privileges required.'));
+            } finally {
+              setBusy(false);
+            }
+          }}
+        >
+          Login as Admin
+        </button>
       </form>
     </div>
   );

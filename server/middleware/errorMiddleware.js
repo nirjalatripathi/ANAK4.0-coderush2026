@@ -41,6 +41,14 @@ function errorHandler(err, req, res, next) {
     return res.status(401).json({ success: false, message: 'Session expired. Please sign in again.' });
   }
 
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    return res.status(400).json({ success: false, message: 'That file is too large. Use a photo or PDF under 8 MB.' });
+  }
+
+  if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+    return res.status(400).json({ success: false, message: 'Please attach one photo or PDF as proof.' });
+  }
+
   res.status(status).json({
     success: false,
     message: err.message || 'An unexpected server error occurred',

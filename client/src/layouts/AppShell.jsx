@@ -1,5 +1,6 @@
 import { Link, Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
+import RahatLogo from '../components/RahatLogo';
 import { useAuth } from '../hooks/useAuth';
 
 export default function AppShell({ title, links, homeTo = '/' }) {
@@ -8,7 +9,10 @@ export default function AppShell({ title, links, homeTo = '/' }) {
     <div className="min-h-screen bg-navy-50">
       <header className="flex items-center justify-between border-b border-navy-800 bg-navy-900 px-6 py-4 text-white">
         <div className="flex items-center gap-4">
-          <Link to={homeTo} className="serif text-xl text-white no-underline">RAHAT</Link>
+          <Link to={homeTo} className="flex items-center gap-2.5 text-xl text-white no-underline">
+            <RahatLogo size={32} light />
+            <span className="serif">RAHAT</span>
+          </Link>
           <span className="hidden text-xs uppercase tracking-[0.16em] text-gold-500 sm:inline">{title}</span>
         </div>
         <div className="flex items-center gap-5 text-sm">

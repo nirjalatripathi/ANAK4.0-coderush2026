@@ -11,7 +11,7 @@ export default function Sidebar({ title, links }) {
           <NavLink
             key={link.to}
             to={link.to}
-            className={({ isActive }) => `rounded px-4 py-2.5 text-sm no-underline ${isActive ? 'bg-navy-900 text-white' : 'text-navy-900 hover:bg-navy-50'}`}
+            className={({ isActive }) => `desk-nav-link${isActive ? ' is-active' : ''}`}
           >
             {link.label}
           </NavLink>
