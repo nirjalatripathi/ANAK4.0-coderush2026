@@ -8,6 +8,7 @@ const { AppError } = require('../../middleware/errorMiddleware');
 const { createNotification } = require('../../services/notificationService');
 
 async function register(req, res, next) {
+  
   try {
     const missing = required(
       ['fullName', 'email', 'password', 'dateOfBirth', 'gender', 'phone', 'district'],
