@@ -17,7 +17,8 @@ async function protect(req, res, next) {
       .populate({
         path: 'campOfficial',
         populate: { path: 'assignedCamp' },
-      });
+      })
+      .populate('localAuthority');
 
     if (!user || !user.isActive) {
       throw new AppError('Account is inactive or no longer valid', 401);
@@ -40,8 +41,12 @@ function optionalAuth(req, res, next) {
 
   jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
     if (err || !decoded) return next();
-    const user = await User.findById(decoded.id);
-    if (user && user.isActive) req.user = user;
+    try {
+      const user = await User.findById(decoded.id);
+      if (user && user.isActive) req.user = user;
+    } catch {
+      /* ignore invalid optional sessions */
+    }
     next();
   });
 }

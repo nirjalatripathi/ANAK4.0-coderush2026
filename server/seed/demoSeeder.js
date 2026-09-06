@@ -269,7 +269,7 @@ async function seedDemo() {
   authorityUser.localAuthority = authority._id;
   await authorityUser.save();
 
-  await upsertUser({
+  const donorUser = await upsertUser({
     email: 'donor.demo@rahat.test',
     password: donorPassword,
     fullName: 'Valley Mutual Aid (DEMO Donor)',
@@ -533,6 +533,7 @@ async function seedDemo() {
     { donationId: 'DON-2026-000001' },
     {
       donationId: 'DON-2026-000001',
+      kind: 'Physical',
       donorName: 'Valley Mutual Aid Collective (demo)',
       donorEmail: 'donate.demo@rahat.test',
       donorPhone: '9801111222',
@@ -709,6 +710,88 @@ async function seedDemo() {
     { upsert: true, returnDocument: 'after' }
   );
 
+  const DonationAllocation = require('../models/DonationAllocation');
+  const ImpactRecord = require('../models/ImpactRecord');
+  const waterNeed = await ReliefNeed.findOne({ camp: campA._id, itemName: 'Drinking Water' });
+  const demoMoney = await Donation.findOneAndUpdate(
+    { donationId: 'RAHAT-DON-000001' },
+    {
+      donationId: 'RAHAT-DON-000001',
+      kind: 'Money',
+      donorName: donorUser.fullName,
+      donorEmail: donorUser.email,
+      donorUser: donorUser._id,
+      donorType: 'Community Organization',
+      amountNPR: 5000,
+      allocatedAmount: 5000,
+      usedAmount: 5000,
+      remainingAmount: 0,
+      purpose: 'Highest Priority Need',
+      category: 'Highest Priority Need',
+      camp: campA._id,
+      reliefNeed: waterNeed?._id,
+      itemName: 'Drinking Water',
+      status: DONATION_STATUS.COMPLETED,
+      peopleSupported: 150,
+      notes: 'DEMO DATA — completed money donation walkthrough. Not a live payment.',
+      isDemo: true,
+      timeline: [
+        { key: 'submitted', label: 'Donation Submitted', at: new Date('2026-09-05T08:00:00'), description: 'NPR 5000 recorded. Payment pending verification.', byName: donorUser.fullName },
+        { key: 'verified', label: 'Payment Verified', at: new Date('2026-09-05T09:00:00'), description: 'Administrator confirmed the demo payment record.', byName: admin.fullName },
+        { key: 'allocated', label: 'Donation Allocated', at: new Date('2026-09-05T10:00:00'), description: 'Allocated to drinking water at Relief Center A.', byName: admin.fullName },
+        { key: 'delivered', label: 'Delivered to Relief Center', at: new Date('2026-09-08T11:00:00'), description: 'Water purchased and delivered.', byName: admin.fullName },
+        { key: 'verified_use', label: 'Distribution Verified', at: new Date('2026-09-08T14:00:00'), description: 'Administrator verified distribution.', byName: admin.fullName },
+        { key: 'impact', label: 'Impact Recorded', at: new Date('2026-09-08T15:00:00'), description: 'Supported approximately 150 people.', byName: admin.fullName },
+      ],
+    },
+    { upsert: true, returnDocument: 'after' }
+  );
+  await DonationAllocation.findOneAndUpdate(
+    { allocationId: 'ALC-2026-000001' },
+    {
+      allocationId: 'ALC-2026-000001',
+      donation: demoMoney._id,
+      need: waterNeed?._id,
+      camp: campA._id,
+      itemName: 'Drinking Water',
+      amountNPR: 5000,
+      reason: 'Highest verified shortage: Drinking Water at Relief Center A.',
+      allocatedBy: admin._id,
+    },
+    { upsert: true }
+  );
+  await ImpactRecord.findOneAndUpdate(
+    { donation: demoMoney._id },
+    {
+      donation: demoMoney._id,
+      camp: campA._id,
+      itemName: 'Drinking Water',
+      amountUsedNPR: 5000,
+      quantityDelivered: 1000,
+      unit: 'L',
+      peopleSupported: 150,
+      location: campA.name,
+      verifiedBy: admin._id,
+      verifiedAt: new Date('2026-09-08T15:00:00'),
+      notes: 'DEMO DATA — group water distribution at Relief Center A.',
+      donorFacing: true,
+      proofs: [{ kind: 'note', url: '', caption: 'Water drums delivered to Relief Center A.', donorFacing: true }],
+    },
+    { upsert: true }
+  );
+  await Notification.findOneAndUpdate(
+    { user: donorUser._id, type: 'donation_impact', relatedId: demoMoney._id },
+    {
+      user: donorUser._id,
+      title: 'Your donation has now been used for relief',
+      body: 'Your NPR 5,000 contribution was allocated toward drinking water relief at Relief Center A. Proof is available on your donation record.',
+      type: 'donation_impact',
+      relatedModel: 'Donation',
+      relatedId: demoMoney._id,
+    },
+    { upsert: true }
+  );
+
   await setSequence('CIT-2026', 20);
   await setSequence('HH-2026', 20);
   await setSequence('UNREG-2026', 245);
@@ -721,6 +804,8 @@ async function seedDemo() {
   await setSequence('REL-2026', 4181);
   await setSequence('REQ-2026', 10);
   await setSequence('ALC-2026', 10);
+  await setSequence('RAHAT-DON', 1);
+  await setSequence('RAHAT-SUP', 1);
 
   console.log('------------------------------------------');
   console.log('RAHAT demo seed complete');

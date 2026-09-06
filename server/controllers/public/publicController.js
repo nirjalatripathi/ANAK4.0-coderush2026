@@ -5,8 +5,8 @@ const ReliefCamp = require('../../models/ReliefCamp');
 const UnregisteredPerson = require('../../models/UnregisteredPerson');
 const Donation = require('../../models/Donation');
 const ContactMessage = require('../../models/ContactMessage');
-const SafeZone = require('../../models/SafeZone');
 const ReliefNeed = require('../../models/ReliefNeed');
+const ImpactRecord = require('../../models/ImpactRecord');
 const Shipment = require('../../models/Shipment');
 const { PERSON_STATUS, DISASTER_STATUS, VERIFICATION_STATUS, PRIORITY } = require('../../utils/constants');
 const { required, isEmail } = require('../../utils/validators');
@@ -17,24 +17,24 @@ async function stats(req, res, next) {
     const [
       activeReliefCamps,
       activeDisasters,
-      activeSafeZones,
       peopleInReliefCamps,
       criticalReliefNeeds,
       donationsInTransit,
     ] = await Promise.all([
-      ReliefCamp.countDocuments({ isActive: true }),
-      Disaster.countDocuments({ status: DISASTER_STATUS.ACTIVE }),
-      SafeZone.countDocuments({ status: { $in: ['Active', 'Available', 'Declared Safe', 'Full'] }, isPublic: true }),
-      ReliefCamp.aggregate([{ $group: { _id: null, total: { $sum: '$currentPopulation' } } }]),
+      ReliefCamp.countDocuments({ isActive: true, isDemo: { $ne: true } }),
+      Disaster.countDocuments({ status: DISASTER_STATUS.ACTIVE, isDemo: { $ne: true } }),
+      ReliefCamp.aggregate([
+        { $match: { isDemo: { $ne: true } } },
+        { $group: { _id: null, total: { $sum: '$currentPopulation' } } },
+      ]),
       ReliefNeed.countDocuments({ priority: PRIORITY.CRITICAL, isPublished: true }),
-      Donation.countDocuments({ status: { $in: ['In Transit', 'Arrived'] } }),
+      Donation.countDocuments({ status: { $in: ['In Transit', 'Arrived'] }, isDemo: { $ne: true } }),
     ]);
 
     res.json({
       success: true,
       stats: {
         activeDisasters,
-        activeSafeZones,
         activeReliefCamps,
         peopleInReliefCamps: peopleInReliefCamps[0]?.total || 0,
         criticalReliefNeeds,
@@ -57,6 +57,21 @@ async function contact(req, res, next) {
       subject: req.body.subject,
       message: req.body.message,
     });
+
+    const { getSupabase } = require('../../config/supabase');
+    const supabase = getSupabase();
+    if (supabase) {
+      const { error } = await supabase.from('contact_messages').insert({
+        name: req.body.name,
+        email: req.body.email,
+        subject: req.body.subject,
+        message: req.body.message,
+      });
+      if (error) {
+        console.warn(`Supabase contact sync skipped: ${error.message}`);
+      }
+    }
+
     res.status(201).json({ success: true, message: 'Your message has been received by the RAHAT help desk.', id: message._id });
   } catch (error) {
     next(error);
@@ -85,4 +100,35 @@ async function extraCounts(req, res, next) {
   }
 }
 
-module.exports = { stats, contact, constants, extraCounts };
+async function impactStories(req, res, next) {
+  try {
+    const records = await ImpactRecord.find({ donorFacing: true })
+      .populate('donation', 'donationId kind amountNPR itemName isDemo status')
+      .populate('camp', 'name district')
+      .populate('verifiedBy', 'fullName')
+      .sort({ verifiedAt: -1, createdAt: -1 })
+      .limit(12);
+    const stories = records
+      .filter((row) => row.donation && !row.donation.isDemo)
+      .map((row) => ({
+        id: row._id,
+        donationId: row.donation.donationId,
+        itemName: row.itemName,
+        amountUsedNPR: row.amountUsedNPR,
+        quantityDelivered: row.quantityDelivered,
+        unit: row.unit,
+        peopleSupported: row.peopleSupported,
+        location: row.location,
+        camp: row.camp?.name || '',
+        date: row.verifiedAt || row.createdAt,
+        notes: row.notes,
+        proofs: (row.proofs || []).filter((proof) => proof.donorFacing),
+        verified: Boolean(row.verifiedAt),
+      }));
+    res.json({ success: true, stories });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { stats, contact, constants, extraCounts, impactStories };

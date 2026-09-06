@@ -5,9 +5,8 @@ function IconCheck() {
 }
 
 const capabilities = [
-  'Identifies and records local disasters with type, level, and affected areas',
+  'Identifies and records local disasters with type, level, and location',
   'Represents disaster severity through defined levels (1–4)',
-  'Supports safe-zone declaration by local authorities',
   'Helps communities identify and access relief camps',
   'Tracks camp population, capacity, and resource status',
   'Calculates actual inventory shortages from camp data',
@@ -23,22 +22,19 @@ const problems = [
   'Uneven distribution — supplies concentrated at visible or popular camps',
   'No real-time camp inventory — officials working without data',
   'Donors not knowing where supplies are most needed',
-  'Difficulty coordinating local safe zones during rapid events',
   'Limited visibility into whether donated resources reached the intended camp',
 ];
 
 const workflowSteps = [
   { n: '01', title: 'Local Disaster',         desc: 'A disaster is recorded with type, location, and severity.' },
   { n: '02', title: 'Disaster Level',          desc: 'Level 1–4 is assigned based on scope and impact.' },
-  { n: '03', title: 'Safe Zone Declaration',   desc: 'Authorities designate safe zones for affected communities.' },
-  { n: '04', title: 'Community Check-In',      desc: 'Citizens move to safety and register at safe zones.' },
-  { n: '05', title: 'Relief Camp',             desc: 'Relief camps receive displaced individuals and families.' },
-  { n: '06', title: 'Camp Needs',              desc: 'Inventory is tracked and shortages are calculated.' },
-  { n: '07', title: 'Targeted Donation',       desc: 'Donors respond to verified needs, not general appeals.' },
-  { n: '08', title: 'Delivery',                desc: 'Supplies are dispatched and tracked to relief camps.' },
-  { n: '09', title: 'Verified Receipt',        desc: 'Officials confirm what was received and log discrepancies.' },
-  { n: '10', title: 'Inventory Update',        desc: 'Camp inventory is updated with verified received quantities.' },
-  { n: '11', title: 'Shortage Reduction',      desc: 'The shortage is reduced. The cycle repeats as needed.' },
+  { n: '03', title: 'Relief Camp',             desc: 'Relief camps receive displaced individuals and families.' },
+  { n: '04', title: 'Camp Needs',              desc: 'Inventory is tracked and shortages are calculated.' },
+  { n: '05', title: 'Targeted Donation',       desc: 'Donors respond to verified needs, not general appeals.' },
+  { n: '06', title: 'Delivery',                desc: 'Supplies are dispatched and tracked to relief camps.' },
+  { n: '07', title: 'Verified Receipt',        desc: 'Officials confirm what was received and log discrepancies.' },
+  { n: '08', title: 'Inventory Update',        desc: 'Camp inventory is updated with verified received quantities.' },
+  { n: '09', title: 'Shortage Reduction',      desc: 'The shortage is reduced. The cycle repeats as needed.' },
 ];
 
 export default function About() {
@@ -73,7 +69,7 @@ export default function About() {
               <div className="mt-8 rounded-xl bg-navy-50 border border-line p-6">
                 <p className="text-sm font-semibold text-navy-900 mb-3 uppercase tracking-wide">The RAHAT Chain</p>
                 <div className="flex flex-wrap gap-2 text-sm">
-                  {['Disaster', 'Safe Zone', 'Relief Camp', 'Verified Needs', 'Donations', 'Delivery', 'Recovery'].map((step, i, arr) => (
+                  {['Disaster', 'Relief Camp', 'Verified Needs', 'Donations', 'Delivery', 'Impact'].map((step, i, arr) => (
                     <span key={step} className="flex items-center gap-2">
                       <span className="font-medium text-navy-800">{step}</span>
                       {i < arr.length - 1 && <span className="text-teal-600">→</span>}
@@ -164,8 +160,7 @@ export default function About() {
               <blockquote className="mt-8 border-l-4 border-gold-500 pl-6 py-2">
                 <p className="text-xl text-white/85 leading-8 font-light italic">
                   "To build a connected and transparent local disaster-response ecosystem where every community
-                  can identify danger, move toward safety, access essential relief, and ensure that resources
-                  reach the people who need them most."
+                  can access essential relief and ensure that donated resources reach the people who need them most."
                 </p>
               </blockquote>
               <div className="mt-8 grid grid-cols-2 gap-4">
@@ -194,7 +189,7 @@ export default function About() {
         <div className="section-inner px-6">
           <SectionHeader
             eyebrow="How RAHAT Works"
-            title="The Full 11-Step Relief Journey"
+            title="The Full Relief Journey"
             body="Every feature in RAHAT maps to one step in this journey — from the first disaster report to the final inventory update."
             centered
             as="h2"

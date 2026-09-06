@@ -1,12 +1,12 @@
 const express = require('express');
-const { protect } = require('../middleware/authMiddleware');
+const { protect, optionalAuth } = require('../middleware/authMiddleware');
 const { officialOrAdmin, localOrAdmin } = require('../middleware/roleMiddleware');
 const reliefController = require('../controllers/relief/reliefController');
 const shipmentController = require('../controllers/relief/shipmentController');
 
 const router = express.Router();
 
-router.get('/needs', reliefController.listNeeds);
+router.get('/needs', optionalAuth, reliefController.listNeeds);
 router.get('/match', reliefController.matchNeeds);
 router.get('/supply-demand', reliefController.supplyDemand);
 router.get('/command-center', protect, localOrAdmin, reliefController.commandCenter);

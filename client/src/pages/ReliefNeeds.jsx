@@ -28,7 +28,7 @@ export default function ReliefNeeds() {
       </p>
       {loading ? <div className="mt-8"><Loading /></div> : null}
       {error ? <div className="mt-8"><ErrorState body={error} /></div> : null}
-      {!loading && !needs.length ? <div className="mt-8"><EmptyState title="No active relief needs have been reported." /></div> : null}
+      {!loading && !needs.length ? <div className="mt-8"><EmptyState title="No verified relief needs have been published yet." body="Administrators publish needs from the admin panel. Until then, this list stays empty." /></div> : null}
       <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {needs.map((need) => <ReliefNeedCard key={need._id} need={need} />)}
       </div>

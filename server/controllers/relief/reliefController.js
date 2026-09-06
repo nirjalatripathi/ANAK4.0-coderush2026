@@ -16,10 +16,12 @@ async function listNeeds(req, res, next) {
     if (req.query.campId) filter.camp = req.query.campId;
     if (req.query.priority) filter.priority = req.query.priority;
     if (req.query.itemName) filter.itemName = req.query.itemName;
-    const needs = await ReliefNeed.find(filter).populate('camp', 'name campId district currentPopulation');
+    const needs = await ReliefNeed.find(filter).populate('camp', 'name campId district currentPopulation isDemo');
+    const includeDemo = req.query.includeDemo === 'true' || req.user?.role === 'admin';
+    const visible = includeDemo ? needs : needs.filter((need) => need.camp && !need.camp.isDemo);
     const order = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
-    needs.sort((a, b) => (order[a.priority] ?? 9) - (order[b.priority] ?? 9) || (b.projectedShortage || b.shortage) - (a.projectedShortage || a.shortage));
-    res.json({ success: true, needs });
+    visible.sort((a, b) => (order[a.priority] ?? 9) - (order[b.priority] ?? 9) || (b.projectedShortage || b.shortage) - (a.projectedShortage || a.shortage));
+    res.json({ success: true, needs: visible });
   } catch (error) {
     next(error);
   }

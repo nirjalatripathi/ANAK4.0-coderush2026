@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { campService } from '../../services/campService';
-import { safeZoneService } from '../../services/safeZoneService';
 import { unregisteredService } from '../../services/unregisteredService';
+import { useAuth } from '../../hooks/useAuth';
 import StatusBadge from '../../components/StatusBadge';
 import EmptyState from '../../components/EmptyState';
 import { getErrorMessage } from '../../utils/helpers';
@@ -14,19 +14,13 @@ const emptyArrival = {
 };
 
 export default function CheckIn() {
-  const [zones, setZones] = useState([]);
+  const { campOfficial } = useAuth();
   const [query, setQuery] = useState({ householdId: '', fullName: '', registrationId: '' });
   const [results, setResults] = useState([]);
   const [arrival, setArrival] = useState(emptyArrival);
-  const [form, setForm] = useState({ safeZoneId: '', currentCondition: 'Stable', notes: '' });
+  const [notes, setNotes] = useState('');
   const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    safeZoneService.list().then(({ data }) => {
-      setZones(data.safeZones || []);
-      if (data.safeZones?.[0]) setForm((prev) => ({ ...prev, safeZoneId: data.safeZones[0]._id }));
-    }).catch((err) => setMessage(getErrorMessage(err)));
-  }, []);
+  const campName = campOfficial?.assignedCamp?.name || 'Assigned relief camp';
 
   const search = async (event) => {
     event.preventDefault();
@@ -51,20 +45,12 @@ export default function CheckIn() {
         approximateAge: arrival.age,
         gender: arrival.gender,
         problems: arrival.problems,
-        notes: arrival.problems,
-        currentLocation: zones.find((zone) => zone._id === form.safeZoneId)?.name || '',
+        notes: notes || arrival.problems,
+        currentLocation: campName,
       });
-      if (form.safeZoneId) {
-        await safeZoneService.checkIn(form.safeZoneId, {
-          unregisteredId: data.person._id,
-          safeZoneId: form.safeZoneId,
-          currentCondition: form.currentCondition,
-          specialNeeds: arrival.problems,
-          notes: form.notes,
-        });
-      }
       setMessage(`${arrival.name} recorded${data.person?.temporaryId ? ` as ${data.person.temporaryId}` : ''}.`);
       setArrival(emptyArrival);
+      setNotes('');
     } catch (error) {
       setMessage(getErrorMessage(error, 'Unable to record this person.'));
     }
@@ -72,15 +58,12 @@ export default function CheckIn() {
 
   const checkPerson = async (citizenId) => {
     try {
-      await safeZoneService.checkIn(form.safeZoneId, {
-        citizenId,
-        safeZoneId: form.safeZoneId,
-        currentCondition: form.currentCondition,
-        specialNeeds: arrival.problems,
-        notes: form.notes,
-        familyMembersCount: 1,
+      await campService.updateStatus(citizenId, {
+        disasterStatus: 'In Relief Camp',
+        currentLocation: campName,
+        notes,
       });
-      setMessage('Person checked in. Occupancy was recalculated from check-in records.');
+      setMessage('Person recorded at this relief camp.');
     } catch (error) {
       setMessage(getErrorMessage(error));
     }
@@ -90,7 +73,7 @@ export default function CheckIn() {
     <div>
       <h1 className="serif text-3xl text-navy-900">Check-in</h1>
       <p className="mt-2 max-w-2xl text-ink-700">
-        Enter the person’s name, age and problems. They do not need a RAHAT account.
+        Record a person arriving at {campName}. They do not need a RAHAT account.
       </p>
 
       <form className="card-gov mt-8 grid gap-5 p-8 md:grid-cols-2" onSubmit={recordArrival}>
@@ -110,10 +93,8 @@ export default function CheckIn() {
           </select>
         </div>
         <div>
-          <label className="label-gov">Safe zone</label>
-          <select className="select-gov" value={form.safeZoneId} onChange={(e) => setForm({ ...form, safeZoneId: e.target.value })}>
-            {zones.map((zone) => <option key={zone._id} value={zone._id}>{zone.name}</option>)}
-          </select>
+          <label className="label-gov">Notes</label>
+          <input className="input-gov" value={notes} onChange={(e) => setNotes(e.target.value)} />
         </div>
         <div className="md:col-span-2">
           <label className="label-gov">Problems</label>

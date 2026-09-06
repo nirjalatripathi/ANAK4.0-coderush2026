@@ -12,11 +12,11 @@ const donationController = require('../controllers/donation/donationController')
 const inventoryController = require('../controllers/camp/inventoryController');
 const auditLogController = require('../controllers/admin/auditLogController');
 const householdController = require('../controllers/citizen/householdController');
-const safeZoneController = require('../controllers/safeZone/safeZoneController');
 const reliefController = require('../controllers/relief/reliefController');
 const shipmentController = require('../controllers/relief/shipmentController');
 const resourceController = require('../controllers/resource/resourceController');
 const transferController = require('../controllers/resource/transferController');
+const victimController = require('../controllers/victim/victimController');
 
 const router = express.Router();
 
@@ -64,9 +64,6 @@ router.put('/donations/:id/status', donationController.updateStatus);
 router.get('/inventory/:campId', inventoryController.listInventory);
 router.put('/inventory/:campId', inventoryController.updateItem);
 
-router.get('/safe-zones', safeZoneController.list);
-router.post('/safe-zones', safeZoneController.create);
-router.put('/safe-zones/:id/declare', safeZoneController.declare);
 router.get('/relief-needs', reliefController.listNeeds);
 router.get('/relief-requests', reliefController.listRequests);
 router.put('/relief-requests/:id/verify', reliefController.verifyRequest);
@@ -87,6 +84,9 @@ router.post('/resource-transfers', transferController.create);
 router.put('/resource-transfers/:id', transferController.update);
 router.get('/deliveries', donationController.listDeliveries);
 router.put('/donations/:id/receive', donationController.verifyReceipt);
+
+router.get('/victims', victimController.adminList);
+router.put('/victims/:id/review', victimController.review);
 
 router.get('/audit-logs', auditLogController.list);
 

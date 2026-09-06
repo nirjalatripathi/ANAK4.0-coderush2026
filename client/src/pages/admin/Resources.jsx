@@ -25,7 +25,6 @@ export default function AdminResources() {
       <h1 className="serif text-3xl text-navy-900">Local response resources</h1>
       {readiness ? (
         <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <StatCard label="Safe zones" value={readiness.safeZones} tone="green" />
           <StatCard label="Shelter capacity" value={readiness.shelterCapacity} />
           <StatCard label="Medical preparedness" value={`${readiness.medicalPreparedness}%`} tone="amber" />
           <StatCard label="Transport availability" value={`${readiness.transportAvailability}%`} />

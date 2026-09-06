@@ -16,7 +16,7 @@ export function Terms() {
     <div className="page-wrap max-w-3xl">
       <h1 className="serif text-4xl text-navy-900">Terms of use</h1>
       <div className="mt-6 space-y-5 text-ink-700">
-        <p>RAHAT is provided for local disaster response, safe-zone coordination, relief-camp operations, verified needs, donations and resource transfers.</p>
+        <p>RAHAT is provided for local disaster response, relief-camp operations, verified needs, donations and resource transfers.</p>
         <p>Roles are assigned on the server. Public registration creates a citizen account. Donor registration creates a donor account. Administrator accounts are seeded or issued by an existing administrator.</p>
         <p>Users must submit accurate information to the best of their knowledge.</p>
       </div>

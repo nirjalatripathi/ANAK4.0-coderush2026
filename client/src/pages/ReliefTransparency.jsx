@@ -54,7 +54,6 @@ export default function ReliefTransparency() {
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         <article className="card-gov p-5"><p className="text-sm text-ink-500">Affected population</p><p className="mt-2 font-mono text-3xl">{disaster?.expectedPopulation || 0}</p></article>
-        <article className="card-gov p-5"><p className="text-sm text-ink-500">Active safe zones</p><p className="mt-2 font-mono text-3xl">{stats?.activeSafeZones || 0}</p></article>
         <article className="card-gov p-5"><p className="text-sm text-ink-500">Active relief camps</p><p className="mt-2 font-mono text-3xl">{stats?.activeReliefCamps || 0}</p></article>
         <article className="card-gov p-5"><p className="text-sm text-ink-500">Critical needs</p><p className="mt-2 font-mono text-3xl">{stats?.criticalReliefNeeds || 0}</p></article>
         <article className="card-gov p-5"><p className="text-sm text-ink-500">Donations in transit</p><p className="mt-2 font-mono text-3xl">{stats?.donationsInTransit || 0}</p></article>

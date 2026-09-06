@@ -11,6 +11,7 @@ export const publicService = {
   stats: () => api.get('/public/stats'),
   contact: (payload) => api.post('/public/contact', payload),
   constants: () => api.get('/public/constants'),
+  impactStories: () => api.get('/public/impact-stories'),
 };
 
 export const adminService = {

@@ -1,20 +1,29 @@
-import AppShell from './AppShell';
-
-const links = [
-  { to: '/admin/dashboard', label: 'Dashboard' },
-  { to: '/admin/disasters', label: 'Disasters' },
-  { to: '/admin/safe-zones', label: 'Safe zones' },
-  { to: '/admin/camps', label: 'Camps' },
-  { to: '/admin/inventory', label: 'Inventory' },
-  { to: '/admin/relief-needs', label: 'Relief needs' },
-  { to: '/admin/donations', label: 'Donations' },
-  { to: '/admin/transfers', label: 'Transfers' },
-  { to: '/admin/citizens', label: 'Citizens' },
-  { to: '/admin/reports', label: 'Reports' },
-  { to: '/admin/audit-logs', label: 'Audit logs' },
-  { to: '/admin/settings', label: 'Settings' },
-];
+import { Link, Outlet } from 'react-router-dom';
+import AdminSidebar from '../components/AdminSidebar';
+import { useAuth } from '../hooks/useAuth';
 
 export default function AdminLayout() {
-  return <AppShell title="Administrator" links={links} homeTo="/admin/dashboard" />;
+  const { user, logout } = useAuth();
+
+  return (
+    <div className="admin-desk">
+      <header className="admin-topbar">
+        <div className="flex items-center gap-4">
+          <Link to="/admin/dashboard" className="serif text-xl text-white no-underline">RAHAT</Link>
+          <span className="hidden text-xs uppercase tracking-[0.18em] text-gold-400 sm:inline">Administrator</span>
+        </div>
+        <div className="flex items-center gap-4 text-sm">
+          <span className="hidden text-white/80 sm:inline">{user?.fullName}</span>
+          <Link to="/" className="text-gold-400 no-underline">Public site</Link>
+          <button type="button" className="rounded-lg border border-white/25 px-4 py-2 text-white" onClick={logout}>Sign out</button>
+        </div>
+      </header>
+      <div className="admin-desk__body">
+        <AdminSidebar />
+        <main className="admin-main">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
 }

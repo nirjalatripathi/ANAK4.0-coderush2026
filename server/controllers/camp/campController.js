@@ -10,6 +10,9 @@ async function listCamps(req, res, next) {
     const filter = {};
     if (req.query.district) filter.district = { $regex: req.query.district, $options: 'i' };
     if (req.query.active === 'true') filter.isActive = true;
+    if (req.query.includeDemo !== 'true' && req.user?.role !== 'admin') {
+      filter.isDemo = { $ne: true };
+    }
     const camps = await ReliefCamp.find(filter).populate('disaster', 'name status type').sort({ name: 1 });
     res.json({ success: true, camps });
   } catch (error) {

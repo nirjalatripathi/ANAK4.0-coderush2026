@@ -1,3 +1,16 @@
+export function formatNPR(value) {
+  const amount = Number(value || 0);
+  return `NPR ${amount.toLocaleString('en-NP', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+export function donationProgress(status, kind = 'Money') {
+  const money = ['Pending', 'Payment Verified', 'Allocated', 'In Use', 'Impact Verified', 'Completed'];
+  const physical = ['Pledged', 'Accepted', 'Dispatched', 'Received', 'Verified', 'Distributed', 'Completed'];
+  const steps = kind === 'Physical' ? physical : money;
+  const index = Math.max(0, steps.indexOf(status));
+  return { steps, index, percent: Math.round(((index + 1) / steps.length) * 100) };
+}
+
 export function workspacePath(role) {
   if (role === 'admin') return '/admin/dashboard';
   if (role === 'local_authority' || role === 'local_admin') return '/authority/dashboard';

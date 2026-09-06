@@ -6,11 +6,11 @@ const { createNotification } = require('./notificationService');
 const { AppError } = require('../middleware/errorMiddleware');
 
 async function listPublicDisasters() {
-  return Disaster.find({ isPublic: true }).populate('activeCamps', 'name campId district currentPopulation capacity').sort({ date: -1 });
+  return Disaster.find({ isPublic: true, isDemo: { $ne: true } }).populate('activeCamps', 'name campId district currentPopulation capacity').sort({ date: -1 });
 }
 
 async function getActiveDisasters() {
-  return Disaster.find({ status: DISASTER_STATUS.ACTIVE, isPublic: true }).populate('activeCamps', 'name campId district');
+  return Disaster.find({ status: DISASTER_STATUS.ACTIVE, isPublic: true, isDemo: { $ne: true } }).populate('activeCamps', 'name campId district');
 }
 
 async function createDisaster(payload, admin, ip) {

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { pingSupabase, isSupabaseConfigured } = require('./supabase');
 
 async function connectDB() {
   const uri = process.env.MONGO_URI;
@@ -8,7 +9,19 @@ async function connectDB() {
 
   mongoose.set('strictQuery', true);
   await mongoose.connect(uri);
-  console.log('RAHAT database connected');
+  console.log('RAHAT MongoDB connected');
+
+  if (!isSupabaseConfigured()) {
+    console.log('Supabase not configured — add SUPABASE_URL and SUPABASE_SECRET_KEY to server/.env');
+    return;
+  }
+
+  const status = await pingSupabase();
+  if (status.ok) {
+    console.log('RAHAT Supabase connected');
+  } else {
+    console.warn(`Supabase configured but unreachable: ${status.message}`);
+  }
 }
 
 module.exports = connectDB;

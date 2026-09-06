@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { disasterService } from '../../services/disasterService';
-import { safeZoneService } from '../../services/safeZoneService';
 import { campService } from '../../services/campService';
 import { reliefService } from '../../services/reliefService';
 import { useAuth } from '../../hooks/useAuth';
@@ -18,13 +17,11 @@ export default function AuthorityDashboard() {
   useEffect(() => {
     Promise.all([
       disasterService.active(),
-      safeZoneService.list({ public: 'true' }),
       campService.list({ active: 'true' }),
       reliefService.needs({ priority: 'CRITICAL' }),
-    ]).then(([dis, zones, camps, needs]) => {
+    ]).then(([dis, camps, needs]) => {
       setData({
         disaster: dis.data.disasters?.[0] || null,
-        zones: zones.data.safeZones || [],
         camps: camps.data.camps || [],
         needs: needs.data.needs || [],
       });
@@ -49,15 +46,14 @@ export default function AuthorityDashboard() {
           <DisasterLevelBadge level={data.disaster.disasterLevel} />
         </div>
       ) : null}
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Safe zones" value={data.zones.length} tone="green" />
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         <StatCard label="Relief camps" value={data.camps.length} />
         <StatCard label="Critical needs" value={data.needs.length} tone="red" />
         <StatCard label="Camp population" value={data.camps.reduce((s, c) => s + (c.currentPopulation || 0), 0)} />
       </div>
       <div className="mt-8 flex flex-wrap gap-3">
         <Link className="btn-primary" to="/authority/disasters">Manage disasters</Link>
-        <Link className="btn-safe" to="/authority/safe-zones">Declare safe zones</Link>
+        <Link className="btn-safe" to="/authority/relief-needs">Relief needs</Link>
         <Link className="btn-outline" to="/authority/population">Population</Link>
         <Link className="btn-outline" to="/authority/transfers">Resource transfers</Link>
       </div>

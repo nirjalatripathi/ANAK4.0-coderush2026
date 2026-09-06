@@ -67,4 +67,4 @@ export const DISASTER_TYPES = [
 ];
 
 export const MISSION =
-  'Know the disaster. Declare safety. Move people to safety. Coordinate the right relief where it is needed most.';
+  'Know the disaster. Coordinate verified relief. Show donors where their contribution went.';

@@ -52,20 +52,22 @@ export default function Donations() {
       </div>
 
       <h2 className="serif mt-16 text-2xl text-navy-900">Donation status</h2>
-      <p className="mt-2 text-sm text-ink-500">Private donor contact details are not published here.</p>
+      <p className="mt-2 text-sm text-ink-500">Only donations recorded after administrator verification are listed. Private donor contact details are not published.</p>
       <div className="mt-6 space-y-4">
-        {donations.slice(0, 8).map((donation) => (
+        {donations.length ? donations.slice(0, 8).map((donation) => (
           <article key={donation._id} className="card-gov p-5">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-semibold">{donation.quantity} {donation.itemName}</p>
-                <p className="mt-1 text-sm text-ink-500">{donation.camp?.name}</p>
+                <p className="font-semibold">{donation.kind === 'Money' ? `NPR ${donation.amountNPR}` : `${donation.quantity} ${donation.itemName}`}</p>
+                <p className="mt-1 text-sm text-ink-500">{donation.camp?.name || 'Awaiting allocation'}</p>
                 <p className="font-mono text-xs">{donation.donationId}</p>
               </div>
               <StatusBadge status={donation.status} />
             </div>
           </article>
-        ))}
+        )) : (
+          <EmptyState title="No donations have been recorded yet." body="When a donor submits a contribution, it will appear here after it is saved in the system." />
+        )}
       </div>
     </div>
   );

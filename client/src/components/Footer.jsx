@@ -2,42 +2,41 @@ import { Link } from 'react-router-dom';
 import RahatLogo from './RahatLogo';
 
 const quickLinks = [
-  { to: '/',             label: 'Home' },
-  { to: '/about',        label: 'About Us' },
-  { to: '/disasters',    label: 'Disaster Information' },
-  { to: '/safe-zones',   label: 'Safe Zones' },
-  { to: '/camps',        label: 'Relief Camps' },
-  { to: '/relief-needs', label: 'Relief Needs' },
-  { to: '/donations',    label: 'Donations' },
-  { to: '/contact',      label: 'Contact' },
+  { to: '/', label: 'Home' },
+  { to: '/about', label: 'About Us' },
+  { to: '/victims', label: 'People' },
+  { to: '/donate', label: 'Donate' },
+  { to: '/apply-support', label: 'Ask for Support' },
+  { to: '/how-it-works', label: 'How It Works' },
+  { to: '/impact', label: 'Impact' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 const resources = [
-  { to: '/disasters',    label: 'Disaster Information' },
-  { to: '/safe-zones',   label: 'Safe Zones' },
-  { to: '/camps',        label: 'Relief Camps' },
   { to: '/relief-needs', label: 'Relief Needs' },
-  { to: '/donations',    label: 'Donation Coordination' },
+  { to: '/camps', label: 'Relief Camps' },
+  { to: '/donations', label: 'Donations' },
   { to: '/transparency', label: 'Relief Transparency' },
+  { to: '/disasters', label: 'Disaster Information' },
 ];
 
 const support = [
   { to: '/contact', label: 'Contact Us' },
-  { to: '/about',   label: 'About RAHAT' },
+  { to: '/about', label: 'About RAHAT' },
   { to: '/privacy', label: 'Privacy Policy' },
-  { to: '/terms',   label: 'Terms of Use' },
+  { to: '/terms', label: 'Terms of Use' },
 ];
 
 function FooterSection({ title, links }) {
   return (
     <div>
-      <p className="eyebrow text-ink-500 mb-4">{title}</p>
-      <ul className="space-y-2.5">
+      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-white/80">{title}</p>
+      <ul className="space-y-3">
         {links.map((link) => (
-          <li key={link.to}>
+          <li key={`${title}-${link.to}`}>
             <Link
               to={link.to}
-              className="text-sm text-ink-700 no-underline hover:text-teal-700 transition-colors leading-snug"
+              className="inline-block text-base text-white underline-offset-4 hover:text-gold-400 hover:underline"
             >
               {link.label}
             </Link>
@@ -50,59 +49,46 @@ function FooterSection({ title, links }) {
 
 export default function Footer() {
   return (
-    <footer className="mt-auto border-t border-line bg-navy-950 text-white">
-      {/* Main footer grid */}
+    <footer className="mt-auto bg-navy-900 text-white">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-4 lg:gap-16">
-        {/* Brand column */}
-        <div className="md:col-span-1">
-          <Link to="/" className="flex items-center gap-2.5 no-underline mb-4" aria-label="RAHAT Home">
+        <div>
+          <Link to="/" className="mb-4 flex items-center gap-2.5 no-underline" aria-label="RAHAT Home">
             <RahatLogo size={36} light />
-            <span className="serif text-xl text-white tracking-wide">RAHAT</span>
+            <span className="text-xl font-semibold tracking-wide text-white">RAHAT</span>
           </Link>
-          <p className="text-sm leading-7 text-white/65 max-w-xs">
-            A local disaster relief coordination platform helping communities move from disaster response to verified, targeted relief delivery.
+          <p className="max-w-xs text-base leading-7 text-white/80">
+            A disaster-relief donation platform that connects contributions to verified needs and shows donors what happened afterward.
           </p>
-          {/* Emergency callout */}
-          <div className="mt-5 rounded-lg border border-white/10 bg-white/5 p-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold-400 mb-1.5">Emergency Numbers</p>
-            <p className="text-sm text-white/80">Police <strong className="text-white">100</strong></p>
-            <p className="text-sm text-white/80">Ambulance <strong className="text-white">102</strong></p>
-            <p className="text-sm text-white/80">Help Desk <strong className="text-white">1149</strong></p>
+          <div className="mt-5 rounded-lg border border-white/15 bg-white/10 p-4">
+            <p className="mb-1.5 text-xs font-semibold uppercase tracking-widest text-gold-400">Emergency Numbers</p>
+            <p className="text-base text-white">Police <strong>100</strong></p>
+            <p className="text-base text-white">Ambulance <strong>102</strong></p>
+            <p className="text-base text-white">Help Desk <strong>1149</strong></p>
           </div>
         </div>
 
-        {/* Quick Links */}
-        <div className="text-white/70 hover:[&_a]:text-white">
-          <FooterSection title="Quick Links" links={quickLinks} />
-        </div>
-
-        {/* Resources */}
-        <div className="text-white/70 hover:[&_a]:text-white">
-          <FooterSection title="Resources" links={resources} />
-        </div>
-
-        {/* Support */}
-        <div className="text-white/70 hover:[&_a]:text-white">
+        <FooterSection title="Quick Links" links={quickLinks} />
+        <FooterSection title="Resources" links={resources} />
+        <div>
           <FooterSection title="Support" links={support} />
           <div className="mt-8">
-            <p className="eyebrow text-ink-500 mb-3">Help Desk</p>
-            <a href="mailto:helpdesk@rahat.gov.np" className="text-sm text-white/65 hover:text-teal-400 transition-colors no-underline block">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/80">Help Desk</p>
+            <a href="mailto:helpdesk@rahat.gov.np" className="block text-base text-white hover:text-gold-400">
               helpdesk@rahat.gov.np
             </a>
-            <a href="mailto:relief@rahat.gov.np" className="text-sm text-white/65 hover:text-teal-400 transition-colors no-underline block mt-1">
+            <a href="mailto:relief@rahat.gov.np" className="mt-1 block text-base text-white hover:text-gold-400">
               relief@rahat.gov.np
             </a>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/10">
+      <div className="bg-[#E8EDF3] text-navy-900">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5">
-          <p className="text-xs text-white/40">
+          <p className="text-sm font-medium text-navy-900">
             © 2026 RAHAT — Local Disaster Relief Coordination Platform
           </p>
-          <p className="text-xs text-white/30 italic">
+          <p className="text-sm text-ink-700">
             Coordinating relief where it is needed most.
           </p>
         </div>

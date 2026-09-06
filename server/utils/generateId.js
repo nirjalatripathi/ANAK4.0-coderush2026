@@ -46,9 +46,13 @@ async function generateOfficialId() {
 }
 
 async function generateDonationId() {
-  const year = new Date().getFullYear();
-  const seq = await nextSequence(`DON-${year}`, 6);
-  return `DON-${year}-${seq}`;
+  const seq = await nextSequence('RAHAT-DON', 6);
+  return `RAHAT-DON-${seq}`;
+}
+
+async function generateSupplyDonationId() {
+  const seq = await nextSequence('RAHAT-SUP', 6);
+  return `RAHAT-SUP-${seq}`;
 }
 
 async function generateEmergencyId() {
@@ -93,6 +97,11 @@ async function generateAllocationId() {
   return `ALC-${year}-${seq}`;
 }
 
+async function generateVictimId() {
+  const seq = await nextSequence('RAHAT-VIC', 6);
+  return `RAHAT-VIC-${seq}`;
+}
+
 async function setSequence(key, value) {
   await Counter.findOneAndUpdate(
     { key },
@@ -110,6 +119,7 @@ module.exports = {
   generateDisasterId,
   generateOfficialId,
   generateDonationId,
+  generateSupplyDonationId,
   generateEmergencyId,
   generateSafeZoneId,
   generateShipmentId,
@@ -117,5 +127,6 @@ module.exports = {
   generateAllocationId,
   generateTransferId,
   generateNeedId,
+  generateVictimId,
   setSequence,
 };
